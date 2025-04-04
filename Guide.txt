@@ -2,3 +2,7 @@
 1. run transfer-csv-to-txt.sh
 2. Input INPUT path (CSV): <Number>. <PublicCloud>/<FileName>.csv
 3. Input OUTPUT path (CSV): <Number>. <PublicCloud>/<FileName>.txt
+
+### Tamplates:
+1. AWS/AWS-Certified-DevOps-Engineer-Professional-DOP-C02.csv
+1. AWS/AWS-Certified-DevOps-Engineer-Professional-DOP-C02.txt
