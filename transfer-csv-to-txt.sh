@@ -60,13 +60,13 @@ echo -e "${CYAN}CSV FORMATTED : $CSV_FORMATTED_ABS${RESET}"
 echo -e "${CYAN}TXT FINAL : $TXT_FINAL_ABS${RESET}"
 
 
-# Mount thư mục hiện tại vào /app và chạy với đường dẫn đầy đủ
+# Transfer csv raw to csv formatted
 docker run --rm \
   -v "$(pwd)":/app \
   trung2305/transfer_to_csv \
   "/app/$PRE_CSV_RAW$INPUT" "/app/$PRE_CSV_FORMATTED$INPUT"
 
-
+# Transfer csv formatted to txt final
 docker run --rm \
   -v "$(pwd)":/app \
   trung2305/transfer_to_txt \
