@@ -4,5 +4,5 @@
 3. Input OUTPUT path (CSV): <Number>. <PublicCloud>/<FileName>.txt
 
 ### Tamplates:
-1. AWS/AWS-Certified-DevOps-Engineer-Professional-DOP-C02.csv
-1. AWS/AWS-Certified-DevOps-Engineer-Professional-DOP-C02.txt
+1_AWS/AWS-Certified-DevOps-Engineer-Professional-DOP-C02.csv
+1_AWS/AWS-Certified-DevOps-Engineer-Professional-DOP-C02.txt

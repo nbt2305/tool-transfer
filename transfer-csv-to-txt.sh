@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### Define color variables
+### Define color variables (optional for Windows, vẫn giữ để đẹp)
 BLACK=$(tput setaf 0)
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
@@ -22,52 +22,49 @@ BG_WHITE=$(tput setab 7)
 BOLD=$(tput bold)
 RESET=$(tput sgr0)
 
-PRE_CSV_RAW="1. CSV-Scraping/"
-PRE_CSV_FORMATTED="2. CSV-Transfer/"
-PRE_TXT_FINAL="3. TXT-Final/"
+# Sửa tên folder không có dấu cách để tránh lỗi trên Windows
+PRE_CSV_RAW="1_CSV-Scraping/"
+PRE_CSV_FORMATTED="2_CSV-Transfer/"
+PRE_TXT_FINAL="3_TXT-Final/"
 
 ### Input env
 # Prompt for INPUT if not set
 if [[ -z "$INPUT" ]]; then
-    read -rp "Input INPUT path (CSV): " INPUT
+    read -rp "📥 Input INPUT file name (e.g., data.csv): " INPUT
 fi
 
 # Prompt for OUTPUT if not set
 if [[ -z "$OUTPUT" ]]; then
-    read -rp "Input OUTPUT path (TXT): " OUTPUT
+    read -rp "📤 Input OUTPUT file name (e.g., result.txt): " OUTPUT
 fi
 
 # Check env
 if [[ -z "$INPUT" || -z "$OUTPUT" ]]; then
-    echo -e "${RED}${BOLD}❌ Error: Please set both INPUT and OUTPUT paths.${RESET}"
+    echo -e "${RED}${BOLD}❌ Error: Please set both INPUT and OUTPUT file names.${RESET}"
     exit 1
 fi
 
-# Resolve absolute paths
-CSV_RAW_ABS=$(realpath "$PRE_CSV_RAW$INPUT")
-CSV_FORMATTED_ABS=$(realpath "$PRE_CSV_FORMATTED$INPUT")
-TXT_FINAL_ABS=$(realpath "$PRE_TXT_FINAL$OUTPUT")
-
-# Extract folder paths and filenames
-WORKDIR=$(dirname "$CSV_RAW_ABS")
-CSV_RAW_FILE=$(basename "$CSV_RAW_ABS")
-CSV_FORMATTED_FILE=$(basename "$CSV_FORMATTED_ABS")
-TXT_FINAL_FILE=$(basename "$TXT_FINAL_ABS")
+# Không dùng realpath, xử lý thủ công
+CSV_RAW_REL="$PRE_CSV_RAW$INPUT"
+CSV_FORMATTED_REL="$PRE_CSV_FORMATTED$INPUT"
+TXT_FINAL_REL="$PRE_TXT_FINAL$OUTPUT"
 
 echo -e "${BG_MAGENTA}${BOLD}🚀 Starting Execution${RESET}"
-echo -e "${CYAN}CSV RAW : $CSV_RAW_ABS${RESET}"
-echo -e "${CYAN}CSV FORMATTED : $CSV_FORMATTED_ABS${RESET}"
-echo -e "${CYAN}TXT FINAL : $TXT_FINAL_ABS${RESET}"
+echo -e "${CYAN}CSV RAW       : $CSV_RAW_REL${RESET}"
+echo -e "${CYAN}CSV FORMATTED : $CSV_FORMATTED_REL${RESET}"
+echo -e "${CYAN}TXT FINAL     : $TXT_FINAL_REL${RESET}"
 
+# Get current absolute path (Windows-compatible)
+CURRENT_DIR="$(pwd)"
 
-# Transfer csv raw to csv formatted
+# Transfer CSV raw → CSV formatted
 docker run --rm \
-  -v "$(pwd)":/app \
+  -v "$CURRENT_DIR:/app" \
   trung2305/transfer_to_csv \
-  "/app/$PRE_CSV_RAW$INPUT" "/app/$PRE_CSV_FORMATTED$INPUT"
+  "/app/$CSV_RAW_REL" "/app/$CSV_FORMATTED_REL"
 
-# Transfer csv formatted to txt final
+# Transfer CSV formatted → TXT final
 docker run --rm \
-  -v "$(pwd)":/app \
+  -v "$CURRENT_DIR:/app" \
   trung2305/transfer_to_txt \
-  "/app/$PRE_CSV_FORMATTED$INPUT" "/app/$PRE_TXT_FINAL$OUTPUT"
+  "/app/$CSV_FORMATTED_REL" "/app/$TXT_FINAL_REL"
