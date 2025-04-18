@@ -1,5 +1,5 @@
 ### Step1: Transfer csv raw to csv formatted:
-1. run transfer-csv-to-txt.sh
+1. run transfer-csv-to-txt.sh: bash transfer-csv-to-txt.sh
 2. Input INPUT path (CSV): <Number>_<PublicCloud>/<FileName>.csv
 3. Input OUTPUT path (CSV): <Number>_<PublicCloud>/<FileName>.txt
 
